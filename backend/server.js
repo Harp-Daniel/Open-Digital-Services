@@ -8,8 +8,17 @@ const cloudinary = require('./config/cloudinary');
 const app = express();
 
 // Middleware
-// In production, restrict this to your domain: app.use(cors({ origin: 'https://ods-tech.com' }));
-app.use(cors());
+const allowedOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : ['http://localhost:4200', 'http://10.172.91.230:4200'];
+app.use(cors({
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -40,12 +49,16 @@ app.use('/api/analytics', analyticsRoutes);
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
-    console.error('!!! EXPRESS ERROR !!!');
-    console.error('Path:', req.path);
-    console.error('Error:', err);
-    res.status(500).json({
-        error: 'Internal Server Error',
-        message: err.message,
+    const isProduction = process.env.NODE_ENV === 'production';
+    if (!isProduction) {
+        console.error('!!! EXPRESS ERROR !!!');
+        console.error('Path:', req.path);
+        console.error('Error:', err);
+    }
+
+    res.status(err.status || 500).json({
+        error: isProduction ? 'Internal Server Error' : err.message,
+        message: isProduction ? 'Une erreur est survenue sur le serveur.' : err.message,
         path: req.path
     });
 });
