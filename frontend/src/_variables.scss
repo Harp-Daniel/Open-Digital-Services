@@ -1,0 +1,51 @@
+// Open Digital Services - Global Variables
+
+// --- Colors: Light Theme ---
+$light-bg: #FFFFFF;
+$light-surface: #F8FAFC;
+$light-text: #0F172A;
+$light-text-soft: #475569;
+$light-primary: #0F172A;
+$light-secondary: #00A3AD;
+$light-blue-accent: #E0F2FE;
+$light-bg-gradient: linear-gradient(135deg, #FFFFFF 0%, #F0F9FF 100%);
+$light-danger: #EF4444;
+$light-success: #22C55E;
+
+// --- Colors: Dark Theme ---
+$dark-bg: #020617; // Very deep blue-black
+$dark-surface: #0B132B; // Navy Blue
+$dark-text: #FFFFFF;
+$dark-text-soft: #CBD5E1;
+$dark-primary: #FFFFFF;
+$dark-secondary: #38BDF8; // Brighter light blue for dark mode
+$dark-bg-gradient: radial-gradient(circle at top right, #0F172A 0%, #020617 100%);
+$dark-danger: #F87171;
+$dark-success: #4ADE80;
+
+// --- Common Variables ---
+$font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+$transition-speed: 0.3s;
+$border-radius-lg: 1.5rem;
+$border-radius-xl: 3rem;
+$container-max-width: 1280px;
+
+// --- Mixins ---
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin container {
+    width: 100%;
+    max-width: $container-max-width;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+@mixin glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}

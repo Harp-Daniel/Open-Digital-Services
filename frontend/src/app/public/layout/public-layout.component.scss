@@ -1,0 +1,17 @@
+@use '../../../variables' as *;
+
+.public-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: transparent;
+
+    .main-content {
+        flex-grow: 1;
+        padding-top: 100px; // Navbar (80px) + Gap (20px)
+
+        @media (max-width: 768px) {
+            padding-top: 90px; // Mobile Navbar (70px) + Gap (20px)
+        }
+    }
+}

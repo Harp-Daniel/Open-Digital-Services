@@ -1,0 +1,388 @@
+@use 'sass:color';
+@use '../../../variables' as *;
+
+/* Animations */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.animate-zoom-in {
+    animation: zoomIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Main Styles (Light Theme) */
+.contacts-mgmt {
+    .dashboard-header {
+        margin-bottom: 2.5rem;
+
+        .page-title {
+            font-size: 1.75rem;
+            color: $light-text;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: $light-text-soft;
+        }
+    }
+}
+
+.table-container {
+    background: white;
+    border-radius: 1.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    overflow-x: auto;
+    animation: slideUp 0.4s ease-out forwards;
+}
+
+.contacts-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+
+    th {
+        padding: 1.25rem 1.5rem;
+        background: $light-surface;
+        color: $light-text-soft;
+        font-size: 0.8125rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    td {
+        padding: 1.25rem 1.5rem;
+        vertical-align: middle;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        color: $light-text;
+    }
+
+    tr {
+        transition: background-color 0.2s ease;
+
+        &.unread {
+            background-color: rgba($light-secondary, 0.02);
+
+            .client-name {
+                font-weight: 700;
+            }
+        }
+
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.01);
+        }
+    }
+
+    .client-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+
+        .client-name {
+            font-size: 0.9375rem;
+            color: $light-text;
+        }
+
+        .client-email {
+            font-size: 0.8125rem;
+            color: $light-text-soft;
+        }
+    }
+
+    .subject-cell {
+        .subject-text {
+            font-weight: 600;
+            font-size: 0.9375rem;
+            margin-right: 0.5rem;
+        }
+
+        .badge-new {
+            padding: 0.2rem 0.4rem;
+            background: rgba($light-secondary, 0.1);
+            color: $light-secondary;
+            border-radius: 0.25rem;
+            font-size: 0.625rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+    }
+
+    .message-preview {
+        max-width: 300px;
+        font-size: 0.875rem;
+        color: $light-text-soft;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .actions-cell {
+        .actions-flex {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            color: $light-text-soft;
+            @include flex-center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+            &:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            &.view:hover {
+                background: linear-gradient(135deg, $light-secondary, #00C2CC);
+                color: white;
+                border: none;
+            }
+
+            &.read:hover {
+                background: linear-gradient(135deg, #22c55e, #4ade80);
+                color: white;
+                border: none;
+            }
+
+            &.delete:hover {
+                background: linear-gradient(135deg, $light-danger, #ff6b6b);
+                color: white;
+                border: none;
+            }
+        }
+    }
+}
+
+.empty-state {
+    padding: 4rem 2rem;
+    text-align: center;
+    color: $light-text-soft;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+
+    svg {
+        width: 48px;
+        height: 48px;
+        opacity: 0.2;
+    }
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.modal-content.confirmation-modal {
+    background: white;
+    width: 100%;
+    max-width: 450px;
+    border-radius: 2rem;
+    padding: 2.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    text-align: center;
+
+    .modal-icon-container {
+        width: 80px;
+        height: 80px;
+        background: #fef2f2;
+        color: #ef4444;
+        border-radius: 50%;
+        @include flex-center;
+        margin: 0 auto 1.5rem;
+
+        svg {
+            width: 40px;
+            height: 40px;
+        }
+    }
+
+    h3 {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: $light-text;
+        margin-bottom: 1rem;
+    }
+
+    p {
+        color: $light-text-soft;
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+    }
+
+    .modal-footer.central {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+
+        button {
+            padding: 1rem;
+            border-radius: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary {
+            background: #f1f5f9;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            color: $light-text;
+
+            &:hover {
+                background: #e2e8f0;
+            }
+        }
+
+        .btn-primary.btn-danger {
+            background: linear-gradient(135deg, $light-danger, #ff6b6b);
+            color: white;
+            border: none;
+        }
+    }
+}
+
+/* Dark Mode Overrides */
+:host-context(.dark) {
+    .contacts-mgmt .dashboard-header {
+        .page-title {
+            color: $dark-text;
+        }
+
+        .page-subtitle {
+            color: $dark-text-soft;
+        }
+    }
+
+    .table-container {
+        background: #1e293b;
+        border-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .contacts-table {
+        th {
+            background: rgba(255, 255, 255, 0.02);
+            color: $dark-text-soft;
+        }
+
+        td {
+            color: $dark-text;
+            border-bottom-color: rgba(255, 255, 255, 0.05);
+        }
+
+        tr:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .client-info .client-name {
+            color: $dark-text;
+        }
+
+        .subject-cell .subject-text {
+            color: $dark-text;
+        }
+
+        .message-preview {
+            color: $dark-text-soft;
+        }
+
+        .actions-cell .action-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+
+            &.view:hover {
+                background: linear-gradient(135deg, $dark-secondary, #7DD3FC);
+                color: $dark-bg;
+            }
+
+            &.read:hover {
+                background: linear-gradient(135deg, #4ade80, #86efac);
+                color: $dark-bg;
+            }
+
+            &.delete:hover {
+                background: linear-gradient(135deg, $dark-danger, #fca5a5);
+                color: white;
+            }
+        }
+    }
+
+    .modal-content.confirmation-modal {
+        background: #1e293b;
+
+        h3 {
+            color: white;
+        }
+
+        p {
+            color: $dark-text-soft;
+        }
+
+        .modal-icon-container {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+        }
+
+        .modal-footer.central {
+            .btn-secondary {
+                background: #334155;
+                color: white;
+                border-color: rgba(255, 255, 255, 0.1);
+            }
+
+            .btn-primary.btn-danger {
+                background: linear-gradient(135deg, $dark-danger, #fca5a5);
+            }
+        }
+    }
+}

@@ -1,0 +1,469 @@
+@use '../../../variables' as *;
+
+@mixin shimmer {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.5),
+            transparent);
+    animation: shimmer 1.5s infinite;
+
+    [data-theme='dark'] & {
+        background: linear-gradient(90deg,
+                transparent,
+                rgba(255, 255, 255, 0.05),
+                transparent);
+    }
+}
+
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.team-container {
+    padding: 0;
+
+    .team-header {
+        padding: 0 0 30px;
+        text-align: center;
+        margin-bottom: 0;
+
+        .header-content {
+            @include container;
+            max-width: 900px;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            line-height: 1;
+            color: $light-primary;
+
+            @media (min-width: 768px) {
+                font-size: 3.5rem;
+            }
+
+            span {
+                background: linear-gradient(to right, $light-primary, $light-secondary);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+
+            @media (max-width: 640px) {
+                padding: 0 1.25rem;
+            }
+
+            @media (max-width: 400px) {
+                padding: 0 1rem;
+            }
+        }
+
+        p {
+            max-width: 700px;
+            margin: 0 auto;
+            color: $light-text-soft;
+            font-size: 1.25rem;
+            line-height: 1.6;
+        }
+    }
+
+    .team-section {
+        @include container;
+        padding: 0.5rem 0 3rem;
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+
+            @media (max-width: 640px) {
+                padding: 0 1.25rem;
+            }
+
+            @media (max-width: 400px) {
+                padding: 0 1rem;
+            }
+        }
+    }
+
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(clamp(280px, 45vw, 500px), 1fr));
+        gap: clamp(1.5rem, 4vw, 3rem);
+
+        @media (max-width: 640px) {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+    }
+
+    .business-card {
+        background: #F8FAFC; // Light Slate (Light Mode)
+        border-radius: 1.5rem;
+        overflow: hidden;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background: white;
+            padding: 0.75rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            height: clamp(50px, 8vh, 60px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+            .card-logo {
+                height: clamp(18px, 4vw, 24px);
+            }
+
+            .company-name {
+                font-weight: 800;
+                color: #0B132B;
+                font-size: clamp(0.9rem, 2vw, 1.1rem);
+                letter-spacing: -0.01em;
+            }
+
+            @media (max-width: 400px) {
+                padding: 0.5rem 1rem;
+                height: 45px;
+            }
+        }
+
+        .card-body {
+            flex-grow: 1;
+            position: relative;
+            padding: clamp(1.25rem, 4vw, 2.5rem);
+            display: flex;
+            flex-direction: column;
+
+            .diagonal-line {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 12px;
+                background: $light-secondary; // Yellow
+                clip-path: polygon(0 0, 100% 0, 100% 4px, 0 100%);
+                z-index: 2;
+            }
+
+            .card-main {
+                display: flex;
+                gap: clamp(1rem, 4vw, 2.5rem);
+                align-items: flex-start;
+
+                @media (max-width: 480px) {
+                    flex-direction: column;
+                    align-items: center;
+                    text-align: center;
+                }
+            }
+
+            .avatar-side {
+                .avatar-circle {
+                    width: clamp(90px, 25vw, 130px);
+                    height: clamp(90px, 25vw, 130px);
+                    background: $light-secondary;
+                    border-radius: 50%;
+                    padding: clamp(4px, 1vw, 8px);
+                    border: clamp(4px, 1.5vw, 8px) solid #F8FAFC;
+                    box-shadow: 0 0 0 2px rgba($light-secondary, 0.4);
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 50%;
+                        object-fit: cover;
+                        background: white;
+                    }
+                }
+            }
+
+            .info-side {
+                flex-grow: 1;
+                width: 100%;
+
+                .name-role {
+                    margin-bottom: 1.5rem;
+
+                    .member-name {
+                        font-size: clamp(1.4rem, 5vw, 1.8rem);
+                        font-weight: 900;
+                        color: #0B132B;
+                        text-transform: uppercase;
+                        margin-bottom: 0.15rem;
+                        line-height: 1.1;
+                    }
+
+                    .member-role {
+                        font-size: clamp(0.85rem, 3vw, 1.1rem);
+                        font-weight: 600;
+                        color: rgba(#0B132B, 0.6);
+                        text-transform: uppercase;
+                        letter-spacing: 0.1em;
+                    }
+                }
+
+                .member-bio {
+                    font-size: clamp(0.75rem, 2vw, 0.9rem);
+                    color: rgba(#0B132B, 0.5);
+                    line-height: 1.5;
+                    margin-bottom: 2rem;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 3;
+                    line-clamp: 3;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+
+                    @media (max-width: 480px) {
+                        margin-bottom: 1.5rem;
+                    }
+                }
+
+                .contact-list {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                    display: flex;
+                    flex-direction: column;
+                    gap: clamp(0.5rem, 2vw, 0.75rem);
+
+                    li {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.75rem;
+                        color: #0B132B;
+                        font-family: 'JetBrains Mono', monospace;
+                        font-size: clamp(0.7rem, 2vw, 0.9rem);
+                        text-transform: uppercase;
+                        word-break: break-all;
+
+                        .bullet {
+                            display: block;
+                            flex-shrink: 0;
+                            width: 12px;
+                            height: 12px;
+                            background: #E67E22; // Orange
+                            border-radius: 2px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // --- Skeleton Screens ---
+    .skeleton-container {
+        width: 100%;
+        margin-top: 2rem;
+    }
+
+    .skeleton-card {
+        background: #f1f5f9;
+        border-radius: 1.5rem;
+        overflow: hidden;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        height: clamp(300px, 50vh, 400px);
+        display: flex;
+        flex-direction: column;
+
+        .skeleton-header {
+            height: clamp(45px, 8vh, 60px);
+            background: white;
+            position: relative;
+            overflow: hidden;
+            @include shimmer;
+        }
+
+        .skeleton-body {
+            padding: clamp(1.25rem, 4vw, 2.5rem);
+            display: flex;
+            gap: clamp(1rem, 4vw, 2.5rem);
+
+            @media (max-width: 480px) {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .skeleton-avatar {
+                width: clamp(90px, 25vw, 130px);
+                height: clamp(90px, 25vw, 130px);
+                border-radius: 50%;
+                background: rgba(0, 0, 0, 0.05);
+                position: relative;
+                overflow: hidden;
+                @include shimmer;
+            }
+
+            .skeleton-info {
+                flex-grow: 1;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+
+                .skeleton-text-lg {
+                    height: clamp(24px, 4vw, 32px);
+                    width: 70%;
+                    background: rgba(0, 0, 0, 0.05);
+                    border-radius: 4px;
+                    position: relative;
+                    overflow: hidden;
+                    @include shimmer;
+                }
+
+                .skeleton-text-md {
+                    height: clamp(16px, 3vw, 20px);
+                    width: 40%;
+                    background: rgba(0, 0, 0, 0.05);
+                    border-radius: 4px;
+                    position: relative;
+                    overflow: hidden;
+                    @include shimmer;
+                }
+            }
+        }
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 5rem 2rem;
+        background: #0B132B;
+        border-radius: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            filter: grayscale(1);
+            opacity: 0.5;
+        }
+
+        p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.2rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+    }
+}
+
+:host-context(.dark) {
+    .team-container {
+        .team-header {
+            h1 {
+                color: $dark-primary;
+
+                span {
+                    background: linear-gradient(to right, $dark-primary, $dark-secondary);
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                }
+            }
+
+            p {
+                color: rgba(255, 255, 255, 0.6);
+            }
+        }
+
+        .business-card {
+            background: $dark-surface;
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+
+            .card-header {
+                // Keep white header but adjust border
+                border-bottom: 2px solid $light-secondary;
+            }
+
+            .card-body {
+                .avatar-side .avatar-circle {
+                    border-color: #0B132B;
+                }
+
+                .info-side {
+                    .member-name {
+                        color: white;
+                    }
+
+                    .member-role {
+                        color: rgba(255, 255, 255, 0.7);
+                    }
+
+                    .member-bio {
+                        color: rgba(255, 255, 255, 0.5);
+                    }
+
+                    .contact-list li {
+                        color: rgba(255, 255, 255, 0.9);
+                    }
+                }
+            }
+        }
+
+        .skeleton-card {
+            background: #0B132B;
+            border-color: rgba(255, 255, 255, 0.05);
+
+            .skeleton-header {
+                border-bottom: 2px solid $light-secondary;
+            }
+
+            .skeleton-avatar,
+            .skeleton-text-lg,
+            .skeleton-text-md {
+                background: rgba(255, 255, 255, 0.05);
+            }
+        }
+
+        .empty-state {
+            background: #1e293b;
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+    }
+}
+
+.animate-in {
+    opacity: 0;
+    animation: slideUp 0.8s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

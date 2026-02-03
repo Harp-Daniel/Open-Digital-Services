@@ -1,0 +1,195 @@
+@use '../../../variables' as *;
+
+.footer {
+    background: rgba($light-bg, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 5rem 0 2.5rem;
+    margin-top: 20px;
+    border-top: 1px solid rgba($light-text, 0.1);
+    transition: all $transition-speed ease;
+
+    .footer-container {
+        @include container;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1.5fr;
+        gap: 3rem;
+
+        @media (max-width: 992px) {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        @media (max-width: 576px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .footer-brand {
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+
+            .logo-text {
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: $light-text;
+                letter-spacing: -0.5px;
+
+                .highlight {
+                    background: linear-gradient(to right, $light-primary, $light-secondary);
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    color: transparent;
+                }
+            }
+        }
+
+        p {
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.25rem;
+
+            a {
+                width: 42px;
+                height: 42px;
+                border-radius: 12px;
+                @include flex-center;
+                background: rgba($light-primary, 0.1);
+                color: $light-primary;
+                text-decoration: none;
+                transition: all $transition-speed ease;
+
+                svg {
+                    width: 20px;
+                    height: 20px;
+                    transition: transform 0.3s ease;
+                }
+
+                &:hover {
+                    background: $light-primary;
+                    color: white;
+                    transform: translateY(-5px);
+                    box-shadow: 0 10px 20px rgba($light-primary, 0.2);
+
+                    svg {
+                        transform: scale(1.1);
+                    }
+                }
+            }
+        }
+    }
+
+    .footer-links {
+        h4 {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            color: $light-text;
+        }
+
+        ul {
+            list-style: none;
+
+            li {
+                margin-bottom: 0.75rem;
+
+                a {
+                    text-decoration: none;
+                    color: $light-text-soft;
+                    font-size: 0.95rem;
+                    transition: color $transition-speed ease;
+
+                    &:hover {
+                        color: $light-secondary;
+                        padding-left: 5px;
+                    }
+                }
+            }
+        }
+    }
+
+    .footer-bottom {
+        @include container;
+        margin-top: 5rem;
+        padding-top: 2rem;
+        border-top: 1px solid rgba($light-text, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.9rem;
+        color: $light-text-soft;
+
+        .footer-legal {
+            display: flex;
+            gap: 1.5rem;
+
+            a {
+                text-decoration: none;
+                color: $light-text-soft;
+                transition: color 0.3s ease;
+
+                &:hover {
+                    color: $light-secondary;
+                }
+            }
+        }
+
+        @media (max-width: 576px) {
+            flex-direction: column;
+            gap: 1.5rem;
+            text-align: center;
+        }
+    }
+}
+
+// --- Dark Mode ---
+:host-context(.dark) {
+    .footer {
+        background: rgba($dark-bg, 0.8);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid rgba($dark-text, 0.1);
+
+        .footer-brand .logo .logo-text {
+            color: $dark-text;
+
+            .highlight {
+                background: linear-gradient(to right, $dark-primary, $dark-secondary);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+            }
+        }
+
+        .footer-brand .social-links a {
+            background: rgba($dark-primary, 0.1);
+            color: $dark-primary;
+
+            &:hover {
+                background: $dark-primary;
+                color: $dark-bg;
+                box-shadow: 0 10px 20px rgba($dark-primary, 0.2);
+            }
+        }
+
+        .footer-links h4 {
+            color: $dark-text;
+        }
+
+        .footer-links ul li a {
+            color: $dark-text-soft;
+
+            &:hover {
+                color: $dark-secondary;
+            }
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba($dark-text, 0.1);
+            color: $dark-text-soft;
+        }
+    }
+}

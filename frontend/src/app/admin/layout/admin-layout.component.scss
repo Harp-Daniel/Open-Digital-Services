@@ -1,0 +1,107 @@
+@use '../../../variables' as *;
+
+.admin-layout {
+    display: flex;
+    min-height: 100vh;
+    background-color: $light-surface;
+    color: $light-text;
+    transition: background-color $transition-speed ease, color $transition-speed ease;
+
+    .admin-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-width: 0; // Prevent content overflow
+        transition: all $transition-speed ease;
+
+        @media (min-width: 1024px) {
+            margin-left: 280px;
+        }
+    }
+
+    .admin-content {
+        flex: 1;
+
+        .admin-container {
+            width: 100%;
+            max-width: $container-max-width;
+            margin: 0 auto;
+            padding: 2rem;
+            transition: max-width $transition-speed ease;
+
+            @media (max-width: 768px) {
+                padding: 1.5rem;
+            }
+        }
+    }
+
+    &.sidebar-collapsed {
+        @media (min-width: 1024px) {
+            .admin-main {
+                margin-left: 80px;
+            }
+        }
+
+        .admin-content .admin-container {
+            max-width: 1440px; // Slightly larger when sidebar is collapsed
+        }
+    }
+
+    .admin-footer {
+        padding: 1.5rem;
+        text-align: center;
+        font-size: 0.875rem;
+        color: $light-text-soft;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+}
+
+// Dark Mode Support
+:host-context(.dark) .admin-layout {
+    background-color: $dark-bg;
+    color: $dark-text;
+
+    .admin-footer {
+        color: $dark-text-soft;
+        border-top-color: rgba(255, 255, 255, 0.05);
+    }
+}
+
+// Mobile and General behavior
+.admin-layout {
+    app-admin-sidebar {
+        position: fixed;
+        left: -280px;
+        top: 0;
+        bottom: 0;
+        width: 280px;
+        z-index: 1000;
+        transition: left $transition-speed ease, width $transition-speed ease;
+    }
+
+    &.mobile-open {
+        app-admin-sidebar {
+            left: 0;
+        }
+
+        .mobile-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+        }
+    }
+}
+
+@media (min-width: 1024px) {
+    .admin-layout {
+        app-admin-sidebar {
+            left: 0;
+
+            &.collapsed {
+                width: 80px;
+            }
+        }
+    }
+}

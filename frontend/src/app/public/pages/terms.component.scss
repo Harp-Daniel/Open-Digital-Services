@@ -1,0 +1,160 @@
+@use '../../../variables' as *;
+
+.terms-container {
+    padding: 0;
+    margin-bottom: 0;
+
+    .terms-hero {
+        padding: 0 0 40px;
+        text-align: center;
+        @include container;
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1.25rem;
+            background: rgba($light-secondary, 0.1);
+            color: $light-secondary;
+            border-radius: 2rem;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: $light-primary;
+
+            @media (min-width: 768px) {
+                font-size: 3.5rem;
+            }
+
+            span {
+                background: linear-gradient(to right, $light-primary, $light-secondary);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+            }
+        }
+
+        p {
+            color: $light-text-soft;
+            font-size: 1.25rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .last-update {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: $light-text-soft;
+            opacity: 0.7;
+        }
+    }
+
+    .terms-content {
+        @include container;
+        margin-top: 60px;
+        padding-bottom: 0;
+
+        .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            gap: 2rem;
+        }
+    }
+
+    .legal-card {
+        background: white;
+        padding: 3rem;
+        border-radius: 2rem;
+        border: 1px solid rgba($light-text, 0.05);
+        transition: all $transition-speed ease;
+        text-align: center;
+
+        &:hover {
+            transform: translateY(-5px);
+            border-color: $light-secondary;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+
+            .number {
+                font-size: 0.85rem;
+                font-weight: 800;
+                color: white;
+                background: $light-primary;
+                width: 35px;
+                height: 35px;
+                @include flex-center;
+                border-radius: 10px;
+            }
+
+            h2 {
+                font-size: 1.75rem;
+                color: $light-primary;
+                margin: 0;
+            }
+        }
+
+        .card-body {
+            p {
+                font-size: 1.1rem;
+                line-height: 1.8;
+                color: $light-text-soft;
+                margin-bottom: 1.5rem;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+}
+
+// --- Dark Mode ---
+:host-context(.dark) {
+    .terms-container {
+        color: $dark-text;
+
+        .terms-hero h1 {
+            color: $dark-primary;
+
+            span {
+                background: linear-gradient(to right, $dark-primary, $dark-secondary);
+                -webkit-background-clip: text;
+                background-clip: text;
+            }
+        }
+
+        .legal-card {
+            background: rgba(15, 23, 42, 0.4);
+            border-color: rgba($dark-primary, 0.1);
+
+            .card-header {
+                .number {
+                    background: $dark-secondary;
+                    color: $dark-bg;
+                }
+
+                h2 {
+                    color: $dark-primary;
+                }
+            }
+
+            .card-body {
+                p {
+                    color: $dark-text-soft;
+                }
+            }
+        }
+    }
+}

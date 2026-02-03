@@ -1,0 +1,143 @@
+@use '../../../variables' as *;
+
+.admin-header {
+    height: 70px;
+    background: rgba(white, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    transition: background $transition-speed ease, border-color $transition-speed ease;
+
+    .header-left {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .mobile-menu-btn {
+            background: none;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color $transition-speed ease;
+            color: $light-text;
+            display: none;
+
+            @media (max-width: 1023px) {
+                display: block;
+            }
+
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.05);
+            }
+        }
+
+        .header-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: $light-text;
+        }
+    }
+
+    .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            background: white;
+            color: $light-text-soft;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all $transition-speed ease;
+
+            &:hover {
+                background: $light-surface;
+                border-color: $light-secondary;
+                color: $light-secondary;
+            }
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+
+            .user-info {
+                text-align: right;
+                margin-right: 0.75rem;
+
+                @media (max-width: 640px) {
+                    display: none;
+                }
+
+                .user-name {
+                    font-size: 0.875rem;
+                    font-weight: 500;
+                    color: $light-text;
+                }
+
+                .user-role {
+                    font-size: 0.75rem;
+                    color: $light-text-soft;
+                    opacity: 0.7;
+                }
+            }
+
+            .user-avatar {
+                width: 2rem;
+                height: 2rem;
+                border-radius: 50%;
+                background: $light-primary;
+                color: white;
+                font-weight: 700;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                background: linear-gradient(135deg, $light-primary, $light-secondary);
+            }
+        }
+    }
+}
+
+// Dark Mode
+:host-context(.dark) .admin-header {
+    background: rgba($dark-bg, 0.8);
+    border-bottom-color: rgba(255, 255, 255, 0.05);
+
+    .header-left .mobile-menu-btn {
+        color: $dark-text;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+    }
+
+    .header-actions .theme-toggle {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.1);
+        color: $dark-text-soft;
+
+        &:hover {
+            border-color: $dark-secondary;
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+    }
+
+    .header-actions .user-profile .user-avatar {
+        background: linear-gradient(135deg, $dark-primary, $dark-secondary);
+    }
+}

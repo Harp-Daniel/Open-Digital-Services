@@ -1,0 +1,91 @@
+<div class="analytics-container">
+    <!-- Header -->
+    <header class="analytics-header">
+        <div class="header-left">
+            <button routerLink="/ods-management-portal-x9" class="back-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                </svg>
+                Retour
+            </button>
+            <div class="header-title">
+                <h1 class="page-title">Analytics Direct</h1>
+                <p class="page-subtitle">Performances et fréquentation en temps réel</p>
+            </div>
+        </div>
+        <div class="header-right">
+            <select class="period-selector" (change)="onPeriodChange($event)" [value]="selectedPeriod()">
+                @for (option of periodOptions; track option.value) {
+                <option [value]="option.value">{{ option.label }}</option>
+                }
+            </select>
+        </div>
+    </header>
+
+    <!-- Real-time Stats -->
+    <div class="realtime-hero">
+        <div class="live-indicator">
+            <span class="pulse"></span>
+            LIVE
+        </div>
+        <div class="hero-stats">
+            <span class="label">Total Visiteurs</span>
+            <h2 class="counter">{{ formatNumber(realTimeCount()) }}</h2>
+        </div>
+    </div>
+
+    <!-- Main Analytics Section -->
+    <div class="analytics-card">
+        <div class="card-header">
+            <div class="view-toggles">
+                <button [class.active]="activeView() === 'daily'" (click)="onViewChange('daily')">Par Jour</button>
+                <button [class.active]="activeView() === 'weekday'" (click)="onViewChange('weekday')">Semaine</button>
+                <button [class.active]="activeView() === 'monthly'" (click)="onViewChange('monthly')">Mensuel</button>
+            </div>
+
+            @if (summary()?.growth !== undefined) {
+            <div class="growth-badge" [class.negative]="(summary()?.growth || 0) < 0">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
+                </svg>
+                {{ formatGrowth(summary()?.growth) }}
+            </div>
+            }
+        </div>
+
+        <!-- Loading State -->
+        @if (loading()) {
+        <div class="chart-loader">
+            <div class="spinner"></div>
+        </div>
+        }
+
+        <!-- Error State -->
+        @if (error()) {
+        <div class="chart-error">
+            <p>{{ error() }}</p>
+            <button (click)="loadStats()">Réessayer</button>
+        </div>
+        }
+
+        <div class="chart-stage" [class.hidden]="loading() || error()">
+            <canvas #dailyChart></canvas>
+
+            <!-- Dynamic Signal-Driven Detail Bubble -->
+            @if (selectedDataPoint(); as point) {
+            <div class="selected-point-overlay">
+                <div class="detail-bubble">
+                    <span class="detail-date">{{ point.label }}</span>
+                    <div class="detail-stats">
+                        <span class="detail-value">{{ formatNumber(point.value) }}</span>
+                        <span class="detail-label">Visiteurs</span>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</div>

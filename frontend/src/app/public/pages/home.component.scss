@@ -1,0 +1,619 @@
+@use '../../../variables' as *;
+
+.home-container {
+    padding: 0;
+    margin-bottom: 0;
+    overflow-x: hidden;
+
+    // --- Hero Section ---
+    .hero-section {
+        position: relative;
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        padding-bottom: 40px; // Mobile gap
+        overflow: hidden;
+
+        @media (min-width: 768px) {
+            min-height: 90vh;
+            padding-bottom: 100px;
+        }
+
+        .hero-container {
+            @include container;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 2rem; // Reduced from 4rem for tighter mobile layout
+            align-items: center;
+
+            @media (min-width: 992px) {
+                gap: 4rem;
+            }
+
+            @media (max-width: 992px) {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+        }
+
+        .hero-content {
+            .badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.75rem;
+                padding: 0.5rem 1.25rem;
+                background: rgba($light-primary, 0.05);
+                border: 1px solid rgba($light-primary, 0.1);
+                border-radius: 2rem;
+                color: $light-primary;
+                font-weight: 700;
+                font-size: 0.85rem;
+                margin-bottom: 2rem;
+
+                .dot {
+                    width: 8px;
+                    height: 8px;
+                    background: $light-secondary;
+                    border-radius: 50%;
+                    position: relative;
+
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        inset: -4px;
+                        border-radius: 50%;
+                        background: rgba($light-secondary, 0.4);
+                        animation: pulse-dot 2s infinite;
+                    }
+                }
+            }
+
+            h1 {
+                font-size: 2.25rem;
+                margin-bottom: 1.5rem;
+                line-height: 1.1;
+
+                @media (min-width: 768px) {
+                    font-size: clamp(2.5rem, 5vw, 4.5rem);
+                    line-height: 1.2;
+                }
+
+                span {
+                    background: linear-gradient(to right, $light-primary, $light-secondary);
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    color: transparent;
+                }
+            }
+
+            p {
+                font-size: 1.25rem; // Increased to match About/Services
+                line-height: 1.6; // Increased to match About/Services
+                color: $light-text-soft;
+                margin-bottom: 1.5rem;
+                max-width: 600px;
+
+                @media (min-width: 768px) {
+                    margin-bottom: 2.5rem;
+                }
+
+                @media (max-width: 992px) {
+                    margin-inline: auto;
+                }
+            }
+
+            .cta-group {
+                display: flex;
+                gap: 1.5rem;
+                flex-wrap: wrap;
+
+                @media (max-width: 992px) {
+                    justify-content: center;
+                }
+
+                @media (max-width: 480px) {
+                    flex-direction: row;
+                    justify-content: center;
+                    gap: 0.75rem;
+                    width: 100%;
+                }
+
+                .btn-primary,
+                .btn-outline {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    min-width: 180px;
+                    padding: 0.85rem 2rem;
+                    border-radius: 2rem;
+                    font-weight: 700;
+                    text-align: center;
+                    text-decoration: none;
+                    transition: all $transition-speed ease;
+
+                    @media (max-width: 480px) {
+                        min-width: 140px;
+                        padding: 0.6rem 1rem;
+                        font-size: 0.85rem;
+                    }
+                }
+
+                .btn-outline {
+                    border: 2px solid rgba($light-text, 0.1);
+                    background: transparent;
+                    color: $light-text;
+
+                    &:hover {
+                        border-color: $light-primary;
+                        background: rgba($light-primary, 0.05);
+                    }
+                }
+            }
+        }
+
+        .hero-image {
+            position: relative;
+            @include flex-center;
+
+            .main-img-card {
+                width: 100%;
+                max-width: 500px;
+                aspect-ratio: 1;
+                background: $dark-surface; // Dark background for better transitions
+                border-radius: 2rem;
+                overflow: hidden;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                position: relative; // Added for carousel positioning
+
+                &.banner-style {
+                    .banner-visual {
+                        width: 100%;
+                        height: 100%;
+                        overflow: hidden;
+
+                        .carousel-track {
+                            display: flex;
+                            height: 100%;
+                            width: 100%;
+                            transition: transform 1.2s cubic-bezier(0.65, 0, 0.35, 1);
+                            will-change: transform;
+
+                            .carousel-slide {
+                                flex: 0 0 100%;
+                                width: 100%;
+                                min-width: 100%;
+                                height: 100%;
+                                animation: bannerReveal 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+
+                                img {
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover;
+                                    transition: transform 0.7s ease;
+                                }
+                            }
+                        }
+                    }
+
+                    .overlay {
+                        position: absolute;
+                        inset: 0;
+                        background: linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent);
+                        pointer-events: none;
+                    }
+
+                    .carousel-indicators {
+                        position: absolute;
+                        bottom: 1.5rem;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        display: flex;
+                        gap: 0.5rem;
+                        z-index: 10;
+
+                        .indicator {
+                            width: 6px;
+                            height: 6px;
+                            border-radius: 50%;
+                            background: rgba(255, 255, 255, 0.3);
+                            transition: all 0.3s ease;
+
+                            &.active {
+                                background: $light-primary;
+                                width: 20px;
+                                border-radius: 3px;
+                            }
+                        }
+                    }
+                }
+
+                &:hover img {
+                    transform: scale(1.1);
+                }
+            }
+
+            .floating-card {
+                position: absolute;
+                bottom: 10px;
+                left: 0;
+                background: rgba(255, 255, 255, 0.6); // Transparent background
+                backdrop-filter: none; // No blur
+                padding: 1rem; // Reduced mobile padding
+                border-radius: 1.25rem;
+                max-width: 160px; // More compact for mobile
+                animation: float 6s infinite ease-in-out;
+                z-index: 5;
+                border: 1px solid rgba($light-text, 0.1);
+
+                @media (min-width: 768px) {
+                    bottom: 20px;
+                    left: -40px;
+                    padding: 1.5rem;
+                    max-width: 220px;
+                }
+
+                .card-icon {
+                    width: 32px; // Reduced mobile icon size
+                    height: 32px;
+                    background: $light-primary;
+                    color: white;
+                    border-radius: 8px;
+                    @include flex-center;
+                    margin-bottom: 0.5rem;
+
+                    @media (min-width: 768px) {
+                        width: 45px;
+                        height: 45px;
+                        border-radius: 12px;
+                        margin-bottom: 1rem;
+                    }
+
+                    svg {
+                        width: 18px !important;
+                        height: 18px !important;
+
+                        @media (min-width: 768px) {
+                            width: 24px !important;
+                            height: 24px !important;
+                        }
+                    }
+                }
+
+                h4 {
+                    margin-bottom: 0.25rem;
+                    font-size: 0.85rem; // Reduced mobile font size
+                    color: $light-text;
+
+                    @media (min-width: 768px) {
+                        font-size: 1rem;
+                        margin-bottom: 0.5rem;
+                    }
+                }
+
+                span {
+                    font-size: 0.7rem; // Reduced mobile font size
+                    color: $light-text-soft;
+                    line-height: 1.2;
+
+                    @media (min-width: 768px) {
+                        font-size: 0.8rem;
+                    }
+                }
+            }
+        }
+
+        .hero-bg-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+
+            .shape {
+                position: absolute;
+                border-radius: 50%;
+                filter: blur(80px);
+                opacity: 0.4;
+                animation: pulse-shapes 8s infinite ease-in-out;
+            }
+
+            .shape-1 {
+                top: -10%;
+                right: -5%;
+                width: 40%;
+                height: 60%;
+                background: rgba($light-primary, 0.3);
+            }
+
+            .shape-2 {
+                bottom: -10%;
+                left: -5%;
+                width: 35%;
+                height: 50%;
+                background: rgba($light-secondary, 0.2);
+            }
+        }
+    }
+
+    // --- Featured Services ---
+    .services-preview {
+        padding: 40px 0 0; // Mobile gap
+        margin-bottom: 0;
+
+        @media (min-width: 768px) {
+            padding-top: 80px;
+        }
+
+        .section-header {
+            @include container;
+            text-align: center;
+            margin-bottom: 30px; // Reduced from 80px
+
+            @media (min-width: 768px) {
+                margin-bottom: 50px;
+            }
+
+            h2 {
+                font-size: 1.75rem;
+                margin-bottom: 1.5rem;
+
+                @media (min-width: 768px) {
+                    font-size: 2.5rem;
+                }
+            }
+
+            p {
+                max-width: 700px;
+                margin: 0 auto;
+                color: $light-text-soft;
+                font-size: 1.25rem; // Matched with hero/about
+                line-height: 1.6;
+            }
+        }
+
+        .services-grid {
+            @include container;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 2.5rem;
+            border: 1px solid rgba($light-primary, 0.1);
+            transition: all $transition-speed ease;
+
+            .icon-box {
+                width: 60px;
+                height: 60px;
+                background: rgba($light-primary, 0.05);
+                color: $light-primary;
+                border-radius: 1rem;
+                @include flex-center;
+                margin-bottom: 2rem;
+                transition: all $transition-speed ease;
+            }
+
+            h3 {
+                margin-bottom: 1rem;
+                font-size: 1.35rem;
+            }
+
+            p {
+                margin-bottom: 2rem;
+                font-size: 1rem;
+                color: $light-text-soft;
+            }
+
+            .details-link {
+                text-decoration: none;
+                color: $light-primary;
+                font-weight: 700;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                transition: gap $transition-speed ease;
+
+                &:hover {
+                    gap: 0.8rem;
+                }
+            }
+
+            &:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+                border-color: $light-secondary;
+
+                .icon-box {
+                    background: $light-primary;
+                    color: #fff;
+                    transform: rotate(5deg) scale(1.1);
+                }
+            }
+        }
+    }
+}
+
+// --- Dark Mode ---
+:host-context(.dark) {
+    .home-container {
+        .hero-section {
+            .badge {
+                background: rgba($dark-primary, 0.1);
+                border-color: rgba($dark-primary, 0.2);
+                color: $dark-primary;
+
+                .dot {
+                    background: $dark-primary;
+
+                    &::after {
+                        background: $dark-primary;
+                    }
+                }
+            }
+
+            h1 span {
+                background: linear-gradient(to right, $dark-primary, $dark-secondary);
+                -webkit-background-clip: text;
+                background-clip: text;
+            }
+
+            // Paragraph here stays $light-text-soft by default
+
+            .cta-group .btn-outline {
+                border-color: rgba($dark-text, 0.1);
+                color: $dark-text;
+
+                &:hover {
+                    border-color: $dark-primary;
+                    background: rgba($dark-primary, 0.1);
+                }
+            }
+
+            .hero-bg-shapes {
+                .shape-1 {
+                    background: rgba($dark-primary, 0.2);
+                }
+
+                .shape-2 {
+                    background: rgba($dark-secondary, 0.1);
+                }
+            }
+
+            .floating-card {
+                background: rgba(11, 19, 43, 0.4); // Transparent dark background
+                backdrop-filter: none;
+                border: 1px solid rgba($dark-text, 0.1);
+
+                h4 {
+                    color: $dark-text;
+                }
+
+                span {
+                    color: $dark-text-soft;
+                }
+
+                .card-icon {
+                    background: $dark-secondary;
+                    color: $dark-bg;
+                }
+            }
+        }
+
+        .services-preview {
+            background-color: transparent;
+
+            // .section-header p stays $light-text-soft
+
+            .service-card {
+                background: rgba(11, 19, 43, 0.4); // Deep slate/blue tint
+                backdrop-filter: blur(10px);
+                border-color: rgba($dark-primary, 0.1);
+
+                .icon-box {
+                    background: rgba($dark-primary, 0.1);
+                    color: $dark-primary;
+                }
+
+                p {
+                    color: $dark-text-soft;
+                }
+
+                .details-link {
+                    color: $dark-primary;
+                }
+
+                &:hover {
+                    border-color: $dark-primary;
+
+                    .icon-box {
+                        background: $dark-primary;
+                        color: $dark-bg; // Black icon on white background
+                    }
+                }
+            }
+        }
+    }
+}
+
+// --- Animations ---
+.animate-in {
+    animation: fadeInDown 1s ease forwards;
+}
+
+.animate-in-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// --- Keyframes ---
+@keyframes pulse-dot {
+    0% {
+        transform: scale(1);
+        opacity: 0.4;
+    }
+
+    100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes pulse-shapes {
+
+    0%,
+    100% {
+        transform: scale(1) translate(0, 0);
+    }
+
+    50% {
+        transform: scale(1.1) translate(5%, 5%);
+    }
+}
+@keyframes bannerReveal {
+    from {
+        opacity: 0;
+        transform: scale(1.08);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

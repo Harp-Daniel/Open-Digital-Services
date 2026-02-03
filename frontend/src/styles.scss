@@ -1,0 +1,86 @@
+@use 'variables' as *;
+
+// --- Base Reset ---
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    font-family: $font-sans;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    background: $light-bg-gradient;
+    background-attachment: fixed;
+    color: $light-text;
+    transition: background $transition-speed ease, color $transition-speed ease;
+}
+
+// --- Dark Mode Base ---
+.dark body {
+    background: $dark-bg-gradient;
+    background-attachment: fixed;
+    color: $dark-text;
+}
+
+// --- Common Components (Global) ---
+.btn-primary {
+    padding: 0.3rem 1.5rem;
+    background-color: $light-primary;
+    color: #fff;
+    border-radius: 2rem;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-speed ease;
+    text-decoration: none;
+    display: inline-block;
+
+    &:hover {
+        background-color: $light-secondary;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba($light-secondary, 0.2);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+.dark .btn-primary {
+    background-color: $dark-primary;
+    color: $dark-bg;
+
+    &:hover {
+        background-color: $dark-secondary;
+        color: $dark-bg;
+        box-shadow: 0 4px 20px rgba($dark-secondary, 0.4);
+    }
+}
+
+// --- Typography ---
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+}
+
+p {
+    color: $light-text-soft;
+    line-height: 1.6;
+}
+
+.dark p {
+    color: $dark-text-soft;
+}

@@ -1,0 +1,151 @@
+<div class="portal-overlay" (click)="onClose()">
+    <div class="portal-modal" (click)="$event.stopPropagation()">
+        <!-- Header -->
+        <header class="portal-header">
+            <div class="tabs">
+                <button [class.active]="activeTab === 'tracking'" (click)="setTab('tracking')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                    Suivi de Mon Projet
+                </button>
+                <button [class.active]="activeTab === 'club'" (click)="setTab('club')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118aa7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                    </svg>
+                    Espace Abonnés
+                </button>
+            </div>
+            <button class="close-btn" (click)="onClose()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </header>
+
+        <!-- Content -->
+        <div class="portal-body">
+
+            <!-- Project Tracking Tab -->
+            <div *ngIf="activeTab === 'tracking'" class="tab-content animate-fade">
+                <div class="search-box">
+                    <h3>Où en est votre projet ?</h3>
+                    <p>Entrez votre n° de commande ou votre email pour voir l'avancement en temps réel.</p>
+                    <div class="input-group">
+                        <input type="text" [(ngModel)]="searchQuery" placeholder="Ex: ODS-2024-001 ou email@pro.com"
+                            (keyup.enter)="onSearch()">
+                        <button class="btn-search" (click)="onSearch()" [disabled]="isSearching">
+                            <span *ngIf="!isSearching">Suivre</span>
+                            <span *ngIf="isSearching" class="loader"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Results -->
+                <div *ngIf="hasSearched && partnerInfo()" class="results-wrapper">
+                    <div class="partner-welcome">
+                        <p>Bienvenue, <strong>{{ partnerInfo()?.name }}</strong></p>
+                        <span class="count-badge">{{ partnerInfo()?.projects?.length }} projet(s)</span>
+                    </div>
+
+                    @for (project of partnerInfo()?.projects; track project.id) {
+                    <div class="project-card animate-slide-up">
+                        <div class="card-header">
+                            <h4>{{ project.projectName }}</h4>
+                            <span class="badge">{{ project.status }}</span>
+                        </div>
+
+                        <div class="progress-list">
+                            <div class="progress-item">
+                                <label>Conception <span>{{ project.progress.conception }}%</span></label>
+                                <div class="progress-bar">
+                                    <div [style.width.%]="project.progress.conception"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <label>Développement <span>{{ project.progress.development }}%</span></label>
+                                <div class="progress-bar">
+                                    <div [style.width.%]="project.progress.development"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <label>Tests & QA <span>{{ project.progress.testing }}%</span></label>
+                                <div class="progress-bar">
+                                    <div [style.width.%]="project.progress.testing"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <label>Déploiement <span>{{ project.progress.deployment }}%</span></label>
+                                <div class="progress-bar">
+                                    <div [style.width.%]="project.progress.deployment"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="update-info">Dernière mise à jour le {{ project.lastUpdate | date:'mediumDate' }}</p>
+                    </div>
+                    }
+                </div>
+
+                <div *ngIf="hasSearched && !partnerInfo()" class="not-found animate-fade">
+                    <p>Aucun projet trouvé pour cet identifiant. Veuillez vérifier vos informations.</p>
+                </div>
+            </div>
+
+            <!-- Subscribers Tab -->
+            <div *ngIf="activeTab === 'club'" class="tab-content animate-fade">
+                <div class="club-content">
+                    <div class="club-info">
+                        <h3>Open Digital Club</h3>
+                        <p>Rejoignez notre communauté pour bénéficier d'avantages exclusifs :</p>
+                        <ul>
+                            <li>
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                                </svg>
+                                Accès prioritaire aux nouvelles solutions
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-11v4h2v-4h3l-4-4-4 4h3z" />
+                                </svg>
+                                Conseils tech & Innovation hebdomadaires
+                            </li>
+                            <li>
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" />
+                                </svg>
+                                Réductions exclusives "Membres"
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div *ngIf="!isSubscribed" class="subscribe-form">
+                        <input type="email" [(ngModel)]="subscriberEmail" placeholder="Votre email professionnel">
+                        <button class="btn-primary" (click)="onSubscribe()" [disabled]="isSubmitting">
+                            <span *ngIf="!isSubmitting">Rejoindre le Club</span>
+                            <span *ngIf="isSubmitting" class="loader"></span>
+                        </button>
+                        <div style="display: none !important;">
+                            <input type="text" [(ngModel)]="subscriberHoneypot" name="subscriberHoneypot"
+                                autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div *ngIf="isSubscribed" class="success-message">
+                        <div class="icon">✨</div>
+                        <h4>Félicitations !</h4>
+                        <p>Vous êtes maintenant membre de l'Open Digital Club. Surveillez votre boîte mail.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,191 @@
+@use '../../../variables' as *;
+
+.faq-container {
+    padding: 0;
+    margin-bottom: 0;
+
+    .faq-hero {
+        padding: 0 0 20px; // Compact gap like About page
+        text-align: center;
+
+        .hero-content {
+            @include container;
+            max-width: 900px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1.25rem;
+            background: rgba($light-secondary, 0.1);
+            color: $light-secondary;
+            border-radius: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+
+            @media (min-width: 768px) {
+                font-size: 3.5rem;
+            }
+
+            span {
+                background: linear-gradient(to right, $light-primary, $light-secondary);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+            }
+        }
+
+        p {
+            color: $light-text-soft;
+            font-size: 1.2rem;
+        }
+    }
+
+    .faq-accordion {
+        @include container;
+        max-width: 800px;
+        padding-bottom: 0;
+    }
+
+    .faq-item {
+        background: white;
+        border-radius: 1.25rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba($light-text, 0.05);
+        overflow: hidden;
+        transition: all 0.3s ease;
+
+        &.open {
+            border-color: $light-secondary;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+
+            .faq-question .icon::after {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: none;
+            border: none;
+            text-align: left;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: $light-primary;
+            cursor: pointer;
+            font-family: inherit;
+
+            .icon {
+                position: relative;
+                width: 24px;
+                height: 24px;
+                background: rgba($light-primary, 0.05);
+                border-radius: 50%;
+                transition: all 0.3s ease;
+
+                &::before,
+                &::after {
+                    content: '';
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    width: 12px;
+                    height: 2px;
+                    background: $light-primary;
+                    transform: translate(-50%, -50%);
+                }
+
+                &::after {
+                    transform: translate(-50%, -50%) rotate(90deg);
+                    transition: transform 0.3s ease;
+                }
+            }
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0, 1, 0, 1);
+
+            .answer-content {
+                padding: 0 2rem 2rem;
+                color: $light-text-soft;
+                line-height: 1.7;
+            }
+        }
+
+        &.open .faq-answer {
+            max-height: 1000px;
+            transition: max-height 0.4s cubic-bezier(1, 0, 1, 0);
+        }
+    }
+}
+
+// --- Animations ---
+.animate-in {
+    animation: fadeInDown 1s ease forwards;
+}
+
+.animate-in-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// --- Dark Mode ---
+:host-context(.dark) {
+    .faq-container {
+        .faq-hero h1 {
+            color: $dark-primary;
+        }
+
+        .faq-item {
+            background: rgba(15, 23, 42, 0.4);
+            border-color: rgba($dark-primary, 0.1);
+
+            .faq-question {
+                color: $dark-primary;
+
+                .icon {
+                    background: rgba($dark-primary, 0.1);
+
+                    &::before,
+                    &::after {
+                        background: $dark-primary;
+                    }
+                }
+            }
+
+            .faq-answer .answer-content {
+                color: $dark-text-soft;
+            }
+        }
+    }
+}

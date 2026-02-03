@@ -1,0 +1,168 @@
+@use '../../../variables' as *;
+
+.settings-page {
+    .dashboard-header {
+        margin-bottom: 2.5rem;
+
+        .page-title {
+            font-size: 1.75rem;
+            color: $light-text;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: $light-text-soft;
+        }
+    }
+
+    .settings-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+        gap: 2rem;
+
+        @media (max-width: 640px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .settings-card {
+        background: white;
+        border-radius: 1.5rem;
+        padding: 2rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+
+        h2 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: $light-text;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+
+            svg {
+                width: 24px;
+                height: 24px;
+                color: $light-secondary;
+            }
+        }
+    }
+
+    .setting-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        .setting-info {
+            .setting-label {
+                display: block;
+                font-weight: 700;
+                color: $light-text;
+                margin-bottom: 0.25rem;
+            }
+
+            .setting-description {
+                font-size: 0.875rem;
+                color: $light-text-soft;
+            }
+        }
+    }
+
+    /* Switch Component */
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 26px;
+
+        input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #cbd5e1;
+            transition: .4s;
+            border-radius: 34px;
+
+            &:before {
+                position: absolute;
+                content: "";
+                height: 18px;
+                width: 18px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                transition: .4s;
+                border-radius: 50%;
+            }
+        }
+
+        input:checked+.slider {
+            background-color: $light-secondary;
+        }
+
+        input:focus+.slider {
+            box-shadow: 0 0 1px $light-secondary;
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(24px);
+        }
+    }
+}
+
+:host-context(.dark) {
+    .settings-page {
+        .dashboard-header {
+            .page-title {
+                color: $dark-text;
+            }
+
+            .page-subtitle {
+                color: $dark-text-soft;
+            }
+        }
+
+        .settings-card {
+            background: #1e293b;
+            border-color: rgba(255, 255, 255, 0.05);
+
+            h2 {
+                color: $dark-text;
+            }
+        }
+
+        .setting-item {
+            border-color: rgba(255, 255, 255, 0.05);
+
+            .setting-info {
+                .setting-label {
+                    color: $dark-text;
+                }
+
+                .setting-description {
+                    color: $dark-text-soft;
+                }
+            }
+        }
+
+        .switch .slider {
+            background-color: #334155;
+        }
+    }
+}

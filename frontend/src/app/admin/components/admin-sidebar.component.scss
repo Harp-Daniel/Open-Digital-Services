@@ -1,0 +1,183 @@
+@use '../../../variables' as *;
+
+.admin-sidebar {
+    height: 100%;
+    background: white;
+    border-right: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    transition: all $transition-speed ease;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.02);
+
+    &.collapsed {
+        width: 80px;
+
+        .logo-text {
+            display: none;
+        }
+
+        .sidebar-header {
+            justify-content: center;
+            padding: 1.5rem 0.5rem;
+        }
+
+        .sidebar-nav span {
+            display: none;
+        }
+
+        .sidebar-nav a {
+            justify-content: center;
+            padding: 12px 0;
+        }
+    }
+
+    .sidebar-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            min-width: 0;
+
+            .logo-img {
+                height: 32px;
+                width: auto;
+                flex-shrink: 0;
+            }
+
+            .logo-text {
+                font-weight: 700;
+                font-size: 1.25rem;
+                color: $light-primary;
+                background: linear-gradient(135deg, $light-primary, $light-secondary);
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+        }
+
+        .collapse-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            background: $light-surface;
+            color: $light-text-soft;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all $transition-speed ease;
+            flex-shrink: 0;
+
+            &:hover {
+                background: rgba(0, 0, 0, 0.05);
+                color: $light-text;
+                border-color: rgba(0, 0, 0, 0.1);
+            }
+
+            svg {
+                width: 18px;
+                height: 18px;
+            }
+        }
+    }
+
+    .sidebar-nav {
+        flex: 1;
+        padding: 1.5rem 0.75rem;
+        overflow-y: auto;
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            border-radius: 12px;
+            color: $light-text-soft;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all $transition-speed ease;
+
+            i {
+                font-size: 1.25rem;
+            }
+
+            &:hover {
+                background: $light-surface;
+                color: $light-secondary;
+            }
+
+            &.active {
+                background: rgba($light-secondary, 0.1);
+                color: $light-secondary;
+            }
+        }
+    }
+
+}
+
+// Dark Mode Support
+:host-context(.dark) {
+    .admin-sidebar {
+        background: $dark-bg;
+        border-right-color: rgba(255, 255, 255, 0.05);
+
+        .sidebar-header {
+            border-bottom-color: rgba(255, 255, 255, 0.05);
+
+            .collapse-btn {
+                background: rgba(255, 255, 255, 0.05);
+                border-color: rgba(255, 255, 255, 0.1);
+                color: $dark-text-soft;
+
+                &:hover {
+                    color: white;
+                    background: rgba(255, 255, 255, 0.1);
+                    border-color: rgba(255, 255, 255, 0.2);
+                }
+            }
+        }
+
+        .logo-text {
+            color: $dark-text;
+            background: linear-gradient(135deg, $dark-primary, $dark-secondary);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .sidebar-nav a {
+            color: $dark-text-soft;
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.05);
+                color: $dark-secondary;
+            }
+
+            &.active {
+                background: rgba($dark-secondary, 0.2);
+                color: $dark-secondary;
+            }
+        }
+
+    }
+}

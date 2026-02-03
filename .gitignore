@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+
+# Angular specific
+frontend/.angular/
+frontend/dist/
+frontend/tmp/
+
+# Backend specific
+backend/.env
+backend/logs/
+
+# IDE and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Sensitive Configs (DO NOT UPLOAD)
+frontend/src/app/firebase.config.ts
+frontend/src/app/cloudinary.config.ts
+backend/config/firebase_service_account.json

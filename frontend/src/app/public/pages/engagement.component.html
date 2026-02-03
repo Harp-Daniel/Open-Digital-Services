@@ -1,0 +1,165 @@
+<div class="engagement-container">
+    <section class="engagement-hero animate-in">
+        <div class="hero-content">
+            <h1>Espace <span>Engagement</span></h1>
+            <p>Suivez l'avancement de vos projets techniques et rejoignez l'élite de l'innovation numérique.</p>
+        </div>
+    </section>
+
+    <section class="engagement-main">
+        <div class="content-wrapper">
+            <div class="engagement-grid">
+                <!-- Project Tracking Section -->
+                <section class="engagement-section tracking-section animate-fade-in">
+                    <div class="section-header">
+                        <div class="icon-wrapper">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                        </div>
+                        <h2>Suivi de Mon Projet</h2>
+                    </div>
+
+                    <div class="search-box">
+                        <p class="search-description">Accédez instantanément à l'état d'avancement de vos travaux
+                            techniques. Utilisez vos identifiants fournis lors de la commande.</p>
+                        <div class="input-container">
+                            <div class="input-group">
+                                <div class="search-input-wrapper">
+                                    <input type="text" [(ngModel)]="searchQuery" placeholder="N° de commande ou Email"
+                                        (keyup.enter)="onSearch()">
+                                </div>
+                                <button class="btn-search-trigger" (click)="onSearch()" [disabled]="isSearching">
+                                    <span *ngIf="!isSearching">Rechercher</span>
+                                    <span *ngIf="isSearching" class="loader"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="search-hints">
+                            <span>Ex: ODS-2026-001</span>
+                            <span class="separator">•</span>
+                            <span>client@exemple.com</span>
+                        </div>
+                    </div>
+
+                    <!-- Result Section -->
+                    <div *ngIf="hasSearched && partnerInfo()" class="search-results-container animate-fade-in">
+                        <div class="welcome-banner">
+                            <span class="welcome-text">Bienvenue, <strong>{{ partnerInfo()?.name }}</strong></span>
+                            <span class="projects-count">{{ partnerInfo()?.projects?.length }} projet(s)
+                                trouvé(s)</span>
+                        </div>
+
+                        <div class="projects-grid-results">
+                            @for (project of partnerInfo()?.projects; track project.id) {
+                            <div class="result-card animate-in-up">
+                                <div class="card-header">
+                                    <h3>{{ project.projectName }}</h3>
+                                    <span class="status-badge" [attr.data-status]="project.status">{{ project.status
+                                        }}</span>
+                                </div>
+
+                                <div class="global-progress-container">
+                                    <div class="progress-info">
+                                        <span class="progress-label">
+                                            {{ project.overallProgress === 100 ? 'Projet Terminé' : 'Projet en cours' }}
+                                        </span>
+                                        <span class="percentage">{{ project.overallProgress }}%</span>
+                                    </div>
+                                    <div class="global-progress-bar">
+                                        <div class="progress-fill" [style.width.%]="project.overallProgress">
+                                            <span class="progress-text">{{ project.overallProgress }}%</span>
+                                        </div>
+                                    </div>
+                                    <p class="progress-description">
+                                        Progrès global basé sur les étapes de conception, développement et test.
+                                    </p>
+                                </div>
+                                <div class="card-footer">
+                                    <p>Dernière mise à jour : <strong>{{ project.lastUpdate | date:'mediumDate'
+                                            }}</strong></p>
+                                </div>
+                            </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div *ngIf="hasSearched && !partnerInfo()" class="not-found-message animate-fade-in">
+                        <p>⚠️ Aucun dossier trouvé pour cet identifiant. Veuillez vérifier votre numéro de commande ou
+                            votre email.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Club Subscriber Section -->
+                <section class="engagement-section club-section animate-fade-in" style="animation-delay: 0.1s">
+                    <div class="section-header">
+                        <div class="icon-wrapper glass-gold">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                            </svg>
+                        </div>
+                        <h2>Open Digital Club</h2>
+                    </div>
+
+                    <div class="club-benefits">
+                        <p>Devenez membre pour accéder à des opportunités technologiques uniques.</p>
+                        <ul class="benefit-list">
+                            <li>
+                                <div class="benefit-icon">🚀</div>
+                                <div class="benefit-text">
+                                    <h4>Avant-premières</h4>
+                                    <p>Accès prioritaire à nos dernières solutions logicielles.</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="benefit-icon">💡</div>
+                                <div class="benefit-text">
+                                    <h4>Veille Tech</h4>
+                                    <p>Une newsletter hebdomadaire sur l'innovation.</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="benefit-icon">🛡️</div>
+                                <div class="benefit-text">
+                                    <h4>Audit Offert</h4>
+                                    <p>Un audit de sécurité annuel pour nos membres fidèles.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div *ngIf="!isSubscribed" class="subscribe-box">
+                        <h3>Rejoindre l'aventure</h3>
+                        <p class="subscribe-description">Inscrivez-vous pour recevoir nos actualités et profiter
+                            d'avantages exclusifs.</p>
+                        <div class="input-container">
+                            <div class="input-group">
+                                <input type="email" [(ngModel)]="subscriberEmail"
+                                    placeholder="Votre email professionnel">
+                                <button class="btn-primary" (click)="onSubscribe()" [disabled]="isSubmitting">
+                                    <span *ngIf="!isSubmitting">S'abonner</span>
+                                    <span *ngIf="isSubmitting" class="loader"></span>
+                                </button>
+                            </div>
+                            <div style="display: none !important;">
+                                <input type="text" [(ngModel)]="subscriberHoneypot" name="subscriberHoneypot"
+                                    autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="isSubscribed" class="success-box animate-fade-in">
+                        <div class="success-icon">✨</div>
+                        <h3>Bienvenue au Club !</h3>
+                        <p>Votre inscription a été validée. Préparez-vous à recevoir le meilleur de la technologie.</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+</div>

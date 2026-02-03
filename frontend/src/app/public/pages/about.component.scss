@@ -1,0 +1,285 @@
+@use '../../../variables' as *;
+
+:host {
+    display: block; // Fix potential scrollbar issues
+}
+
+.about-container {
+    padding: 0;
+    margin-bottom: 0;
+    overflow: visible; // Avoid double scrollbar
+
+    .about-hero {
+        padding: 0 0 20px; // Compact gap for all screens
+        margin-top: 0;
+        text-align: center;
+        background: transparent;
+
+        .hero-content {
+            @include container;
+            max-width: 900px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1.25rem;
+            background: rgba($light-secondary, 0.1);
+            color: $light-secondary;
+            border-radius: 2rem;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: $light-primary;
+
+            @media (min-width: 768px) {
+                font-size: 3.5rem;
+            }
+
+            span {
+                background: linear-gradient(to right, $light-primary, $light-secondary);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+            }
+        }
+
+        p {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            color: $light-text-soft;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+    }
+
+    .mission-vision {
+        padding: 20px 0 40px; // Compact top gap for all screens
+
+        .content-wrapper {
+            @include container;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+
+            @media (max-width: 768px) {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+        }
+
+        .mission,
+        .vision {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 2rem;
+            border: 1px solid rgba($light-primary, 0.05);
+            transition: transform $transition-speed ease;
+
+            &:hover {
+                transform: translateY(-10px);
+                border-color: $light-secondary;
+            }
+
+            .icon-box {
+                width: 60px;
+                height: 60px;
+                background: $light-primary;
+                color: white;
+                border-radius: 1rem;
+                @include flex-center;
+                margin-bottom: 1.5rem;
+
+                svg {
+                    width: 30px;
+                    height: 30px;
+                }
+            }
+
+            h2 {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+                color: $light-primary;
+            }
+
+            p {
+                color: $light-text-soft;
+                line-height: 1.6;
+            }
+        }
+    }
+
+    .values-section {
+        padding: 40px 0 0; // Mobile-first padding
+        @include container;
+
+        @media (min-width: 768px) {
+            padding: 80px 0 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 30px; // Mobile-first margin
+
+            @media (min-width: 768px) {
+                margin-bottom: 60px;
+            }
+
+            h2 {
+                font-size: 1.75rem; // Mobile-first size
+                margin-bottom: 1rem;
+
+                @media (min-width: 768px) {
+                    font-size: 2.5rem;
+                }
+            }
+
+            p {
+                color: $light-text-soft;
+                font-size: 0.95rem;
+
+                @media (min-width: 768px) {
+                    font-size: 1rem;
+                }
+            }
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+
+            @media (min-width: 640px) {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 2rem;
+            }
+        }
+
+        .value-card {
+            padding: 1.5rem; // Mobile-first padding
+            background: rgba($light-secondary, 0.03);
+            border: 1px solid rgba($light-secondary, 0.1);
+            border-radius: 1.5rem;
+            transition: all $transition-speed ease;
+
+            @media (min-width: 768px) {
+                padding: 2.5rem;
+            }
+
+            &:hover {
+                background: white;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+                border-color: $light-secondary;
+            }
+
+            h3 {
+                font-size: 1.25rem; // Mobile-first size
+                margin-bottom: 0.75rem;
+                color: $light-primary;
+
+                @media (min-width: 768px) {
+                    font-size: 1.5rem;
+                    margin-bottom: 1rem;
+                }
+            }
+
+            p {
+                color: $light-text-soft;
+                font-size: 0.9rem;
+
+                @media (min-width: 768px) {
+                    font-size: 0.95rem;
+                }
+            }
+        }
+    }
+}
+
+// --- Animatios ---
+.animate-in {
+    animation: fadeInDown 1s ease forwards;
+}
+
+.animate-in-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease forwards;
+    // Note: In a real app we'd use Interaction Observer, but for now we apply it generally
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// --- Dark Mode ---
+:host-context(.dark) {
+    .about-container {
+        color: $dark-text;
+
+        .about-hero h1 {
+            color: $dark-primary;
+
+            span {
+                background: linear-gradient(to right, $dark-primary, $dark-secondary);
+                -webkit-background-clip: text;
+                background-clip: text;
+            }
+        }
+
+        .mission,
+        .vision {
+            background: rgba(15, 23, 42, 0.4);
+            border-color: rgba($dark-primary, 0.1);
+
+            h2 {
+                color: $dark-primary;
+            }
+
+            p {
+                color: $dark-text-soft;
+            }
+
+            .icon-box {
+                background: $dark-secondary;
+                color: $dark-bg;
+            }
+        }
+
+        .value-card {
+            background: rgba($dark-secondary, 0.05);
+            border-color: rgba($dark-secondary, 0.2);
+
+            h3 {
+                color: $dark-primary;
+            }
+
+            p {
+                color: $dark-text-soft;
+            }
+
+            &:hover {
+                background: rgba(15, 23, 42, 0.6);
+            }
+        }
+    }
+}
