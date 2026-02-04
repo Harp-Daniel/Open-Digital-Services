@@ -7,18 +7,37 @@ const cloudinary = require('./config/cloudinary');
 
 const app = express();
 
+// Request Logger Middleware
+app.use((req, req_res, next) => {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.path} - Origin: ${req.headers.origin || 'No Origin'}`);
+    next();
+});
+
 // Middleware
-const allowedOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : ['http://localhost:4200', 'http://10.172.91.230:4200'];
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+    ? process.env.ALLOWED_ORIGINS.split(',').map(o => o.trim())
+    : ['http://localhost:4200', 'http://10.172.91.230:4200', 'http://10.93.157.230:4200'];
+
 app.use(cors({
     origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
+        // Allow requests with no origin (like mobile apps or curl)
+        if (!origin) return callback(null, true);
+
+        const isAllowed = allowedOrigins.includes(origin);
+        const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+
+        if (isAllowed || isDevelopment) {
             callback(null, true);
         } else {
+            console.error(`CORS BLOCKED: Origin ${origin} not in [${allowedOrigins.join(', ')}]`);
             callback(new Error('Not allowed by CORS'));
         }
     },
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
 }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

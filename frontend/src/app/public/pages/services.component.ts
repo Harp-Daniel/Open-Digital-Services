@@ -1,13 +1,13 @@
 import { Component, inject, OnInit, signal, computed, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ServicesService, ServiceItem } from '../../shared/services/services.service';
 
 @Component({
   selector: 'app-services',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   template: `
     <div class="services-container">
       <section class="services-header animate-in">
@@ -83,10 +83,10 @@ import { ServicesService, ServiceItem } from '../../shared/services/services.ser
                     <!-- Text Content Overlay -->
                     <div class="banner-overlay">
                       <div class="banner-info">
-                        <span class="banner-badge">À LA CARTE</span>
+                        <span class="banner-badge">À LA UNE</span>
                         <h2 class="banner-title">{{ category.name }}</h2>
                         <p class="banner-description">Transformez votre vision en réalité avec nos solutions professionnelles et notre expertise technologique dédiée.</p>
-                        <button class="banner-action">DÉCOUVRIR LES OFFRES</button>
+                        <button class="banner-action" routerLink="/contact">DÉCOUVRIR LES OFFRES</button>
                       </div>
 
                       <!-- Subtle Indicators -->

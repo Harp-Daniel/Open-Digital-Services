@@ -91,6 +91,27 @@ import { ContactService } from '../../shared/services/contact.service';
         </form>
       </section>
     </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" *ngIf="showSuccessModal()" (click)="closeModal()">
+      <div class="modal-content animate-pop" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <div class="success-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+            </svg>
+          </div>
+          <h2>Merci !</h2>
+        </div>
+        <div class="modal-body">
+          <p>Votre message a été envoyé avec succès.</p>
+          <p>Notre équipe vous contactera dans les plus brefs délais.</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-primary" (click)="closeModal()">Fermer</button>
+        </div>
+      </div>
+    </div>
   `,
   styleUrl: './contact.component.scss'
 })
@@ -98,6 +119,7 @@ export class ContactComponent {
   private contactService = inject(ContactService);
 
   isSending = signal(false);
+  showSuccessModal = signal(false);
 
   formData = {
     name: '',
@@ -114,7 +136,7 @@ export class ContactComponent {
     this.isSending.set(true);
     this.contactService.createMessage(this.formData).subscribe({
       next: () => {
-        alert('Message envoyé avec succès ! Nous vous contacterons bientôt.');
+        this.showSuccessModal.set(true);
         this.formData = {
           name: '',
           email: '',
@@ -130,5 +152,9 @@ export class ContactComponent {
         this.isSending.set(false);
       }
     });
+  }
+
+  closeModal() {
+    this.showSuccessModal.set(false);
   }
 }

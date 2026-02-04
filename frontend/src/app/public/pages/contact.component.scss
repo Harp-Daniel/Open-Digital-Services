@@ -156,7 +156,92 @@
     }
 }
 
+// --- Modal Styles ---
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1.5rem;
+}
+
+.modal-content {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 2rem;
+    max-width: 450px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    position: relative;
+
+    .modal-header {
+        margin-bottom: 1.5rem;
+
+        .success-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba($light-secondary, 0.1);
+            color: $light-secondary;
+            border-radius: 50%;
+            @include flex-center;
+            margin: 0 auto 1.5rem;
+
+            svg {
+                width: 35px;
+                height: 35px;
+            }
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: $light-text;
+        }
+    }
+
+    .modal-body {
+        margin-bottom: 2rem;
+
+        p {
+            color: $light-text-soft;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+    }
+
+    .modal-footer {
+        .btn-primary {
+            width: 100%;
+            padding: 1rem;
+        }
+    }
+}
+
 // --- Animations ---
+.animate-pop {
+    animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes modalPop {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
 .animate-in {
     animation: fadeInDown 1s ease forwards;
 }

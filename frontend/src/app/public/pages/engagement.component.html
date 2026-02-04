@@ -162,4 +162,37 @@
             </div>
         </div>
     </section>
+
+    <!-- Success/Error Modal -->
+    <div class="modal-overlay" *ngIf="showSubscribeModal()" (click)="closeModal()">
+        <div class="modal-content animate-pop" (click)="$event.stopPropagation()"
+            [class.error-modal]="modalData()?.type === 'error'">
+            <div class="modal-header">
+                <div class="modal-icon" [class.success]="modalData()?.type === 'success'"
+                    [class.error]="modalData()?.type === 'error'">
+                    <!-- Success Icon -->
+                    <svg *ngIf="modalData()?.type === 'success'" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                    <!-- Error Icon -->
+                    <svg *ngIf="modalData()?.type === 'error'" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                    </svg>
+                </div>
+                <h2>{{ modalData()?.title }}</h2>
+            </div>
+            <div class="modal-body">
+                <p>{{ modalData()?.message }}</p>
+            </div>
+            <div class="modal-footer">
+                <button [class.btn-primary]="modalData()?.type === 'success'"
+                    [class.btn-error]="modalData()?.type === 'error'" (click)="closeModal()">
+                    {{ modalData()?.type === 'success' ? "Commencer l'aventure" : 'Compris' }}
+                </button>
+            </div>
+        </div>
+    </div>
 </div>

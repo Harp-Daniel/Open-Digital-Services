@@ -23,6 +23,8 @@ export class EngagementComponent implements OnInit {
     subscriberHoneypot = '';
     isSubmitting = false;
     isSubscribed = false;
+    showSubscribeModal = signal(false);
+    modalData = signal<{ title: string; message: string; type: 'success' | 'error' } | null>(null);
 
     ngOnInit() {
         window.scrollTo(0, 0);
@@ -59,7 +61,12 @@ export class EngagementComponent implements OnInit {
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(this.subscriberEmail)) {
-            alert('Veuillez entrer une adresse email valide.');
+            this.modalData.set({
+                title: 'Erreur',
+                message: 'Veuillez entrer une adresse email valide.',
+                type: 'error'
+            });
+            this.showSubscribeModal.set(true);
             return;
         }
 
@@ -71,21 +78,40 @@ export class EngagementComponent implements OnInit {
             next: () => {
                 this.isSubmitting = false;
                 this.isSubscribed = true;
+                this.modalData.set({
+                    title: 'Félicitations !',
+                    message: 'Bienvenue au Open Digital Club. Votre inscription a été validée avec succès.',
+                    type: 'success'
+                });
+                this.showSubscribeModal.set(true);
                 this.subscriberEmail = '';
             },
             error: (err) => {
                 this.isSubmitting = false;
                 console.error('Subscription error:', err);
 
-                // More specific error messages
+                let message = 'Une erreur est survenue lors de l\'inscription. Veuillez réessayer.';
+                let title = 'Erreur';
+
                 if (err.status === 409) {
-                    alert('Cet email est déjà inscrit à notre newsletter.');
+                    message = 'Cet email est déjà inscrit à notre newsletter.';
+                    title = 'Déjà inscrit';
                 } else if (err.status === 0) {
-                    alert('Impossible de se connecter au serveur. Vérifiez que le backend est démarré.');
-                } else {
-                    alert('Une erreur est survenue lors de l\'inscription. Veuillez réessayer.');
+                    message = 'Impossible de se connecter au serveur. Vérifiez que le backend est démarré.';
                 }
+
+                this.modalData.set({
+                    title: title,
+                    message: message,
+                    type: 'error'
+                });
+                this.showSubscribeModal.set(true);
             }
         });
+    }
+
+    closeModal() {
+        this.showSubscribeModal.set(false);
+        this.modalData.set(null);
     }
 }

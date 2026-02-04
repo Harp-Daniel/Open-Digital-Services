@@ -229,6 +229,20 @@
                     color: $light-primary;
                 }
             }
+
+            .btn-primary {
+                background: #2563eb !important; // Blue color
+                color: white !important;
+                border: none !important;
+                text-align: center;
+                margin-top: 1rem;
+                padding: 1rem !important;
+
+                &:hover {
+                    background: #1d4ed8 !important;
+                    transform: scale(1.02);
+                }
+            }
         }
     }
 }

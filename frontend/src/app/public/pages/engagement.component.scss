@@ -677,4 +677,183 @@
             color: $dark-text-soft !important;
         }
     }
+
+    .modal-content {
+        background: $dark-surface;
+        border: 1px solid rgba($dark-primary, 0.1);
+
+        .modal-header h2 {
+            color: white;
+        }
+
+        .modal-body p {
+            color: $dark-text;
+        }
+    }
+}
+
+// --- Modal Styles ---
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1.5rem;
+}
+
+.modal-content {
+    background: white;
+    padding: 3rem;
+    border-radius: 2.5rem;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.2);
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+
+    .modal-header {
+        margin-bottom: 2rem;
+
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 1.5rem;
+
+            svg {
+                width: 40px;
+                height: 40px;
+            }
+
+            &.success {
+                background: rgba($light-secondary, 0.1);
+                color: $light-secondary;
+                animation: iconPulse 2s infinite;
+            }
+
+            &.error {
+                background: rgba(#ef4444, 0.1);
+                color: #ef4444;
+                animation: errorShake 0.5s ease-in-out;
+            }
+        }
+
+        h2 {
+            font-size: 2.25rem;
+            color: $light-primary;
+            letter-spacing: -0.02em;
+        }
+    }
+
+    &.error-modal {
+        border-top: 4px solid #ef4444;
+
+        h2 {
+            color: #ef4444;
+        }
+    }
+
+    .modal-body {
+        margin-bottom: 2.5rem;
+
+        p {
+            color: $light-text-soft;
+            font-size: 1.15rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+
+            strong {
+                color: $light-secondary;
+            }
+        }
+    }
+
+    .modal-footer {
+        .btn-primary {
+            width: 100%;
+            padding: 1.25rem;
+            font-size: 1.1rem;
+            border-radius: 1.25rem;
+        }
+
+        .btn-error {
+            width: 100%;
+            padding: 1.25rem;
+            font-size: 1.1rem;
+            border-radius: 1.25rem;
+            background: #ef4444;
+            color: white;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+
+            &:hover {
+                background: #dc2626;
+                transform: translateY(-2px);
+            }
+        }
+    }
+}
+
+// --- Animations ---
+.animate-pop {
+    animation: modalPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes modalPop {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes iconPulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba($light-secondary, 0.4);
+    }
+
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 15px rgba($light-secondary, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba($light-secondary, 0);
+    }
+}
+
+@keyframes errorShake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-10px);
+    }
+
+    75% {
+        transform: translateX(10px);
+    }
 }
