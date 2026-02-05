@@ -12,9 +12,8 @@ const getApiUrl = (): string => {
     }
 
     // Production (Same-domain hosting or proxy)
-    // If you host the backend on a different domain (e.g., api.ods-tech.web.app), 
-    // change window.location.origin + '/api' to 'https://api.yourdomain.com/api'
-    return window.location.origin + '/api';
+    // Render URL: https://open-digital-services.onrender.com
+    return 'https://open-digital-services.onrender.com/api';
 };
 
 export const API_URL = getApiUrl();
