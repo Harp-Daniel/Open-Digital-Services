@@ -9,6 +9,10 @@ try {
     if (process.env.FIREBASE_SERVICE_ACCOUNT) {
         try {
             serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+            // Fix for newline characters in private_key when provided via env var (Render/Vercel)
+            if (serviceAccount && serviceAccount.private_key) {
+                serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
+            }
         } catch (parseErr) {
             console.error('CRITICAL: Failed to parse FIREBASE_SERVICE_ACCOUNT env var');
         }
