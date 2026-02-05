@@ -3,22 +3,34 @@ const admin = require('firebase-admin');
 let serviceAccount;
 
 if (process.env.FIREBASE_SERVICE_ACCOUNT) {
-    console.log('Firebase: Attempting to load from FIREBASE_SERVICE_ACCOUNT env var');
+    console.log('Firebase: [DEBUG] Attempting to load from FIREBASE_SERVICE_ACCOUNT env var');
     try {
         serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
-        // Fix for newline characters in private_key when provided via env var (Render/Vercel)
+
         if (serviceAccount && serviceAccount.private_key) {
+            const keyLen = serviceAccount.private_key.length;
+            console.log(`Firebase: [DEBUG] Private key length: ${keyLen} chars`);
+
+            // Technical check for standard private key headers
+            const hasHeader = serviceAccount.private_key.includes('-----BEGIN PRIVATE KEY-----');
+            const hasFooter = serviceAccount.private_key.includes('-----END PRIVATE KEY-----');
+            console.log(`Firebase: [DEBUG] Header present: ${hasHeader}, Footer present: ${hasFooter} `);
+
+            // Fix for newline characters
             const originalKey = serviceAccount.private_key;
-            serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n');
+            serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, '\n').replace(/\r/g, '');
+
             if (originalKey !== serviceAccount.private_key) {
-                console.log('Firebase: Fixed newline characters in private_key');
+                console.log('Firebase: [DEBUG] Replacement applied (converted \\n to real newlines)');
             }
         }
-        console.log('Firebase: Successfully parsed service account for project:', serviceAccount.project_id);
+        console.log('Firebase: [DEBUG] Successfully parsed JSON for project:', serviceAccount.project_id);
+        console.log('Firebase: [DEBUG] Client Email:', serviceAccount.client_email);
     } catch (parseErr) {
         console.error('CRITICAL: Failed to parse FIREBASE_SERVICE_ACCOUNT env var:', parseErr.message);
     }
 } else {
+    console.error('CRITICAL: FIREBASE_SERVICE_ACCOUNT env var NOT FOUND in process.env');
     try {
         // Fallback to local file (for development)
         serviceAccount = require('./serviceAccountKey.json');
