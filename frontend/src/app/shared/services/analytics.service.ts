@@ -67,11 +67,10 @@ export class AnalyticsService {
     }
 
     /**
-     * Listen to real-time visitor count from Firestore
+     * Listen to visitor count from backend
      */
     getVisitorCount(): Observable<number> {
-        const summaryDoc = doc(this.firestore, 'analytics/summary');
-        return docData(summaryDoc).pipe(
+        return this.http.get<any>(`${this.apiUrl}/public-stats`).pipe(
             map((data: any) => data?.totalVisits || 0),
             catchError(() => of(0))
         );

@@ -33,6 +33,21 @@ router.post('/hit', async (req, res) => {
     }
 });
 
+/**
+ * @route GET /api/analytics/public-stats
+ * @desc Get simple visitor count (Public)
+ */
+router.get('/public-stats', async (req, res) => {
+    try {
+        const summaryRef = db.collection('analytics').doc('summary');
+        const doc = await summaryRef.get();
+        res.json({ totalVisits: doc.data()?.totalVisits || 0 });
+    } catch (error) {
+        console.error('Error fetching public stats:', error);
+        res.status(500).json({ error: 'Failed to fetch statistics' });
+    }
+});
+
 // ============================================
 // DETAILED ANALYTICS ENDPOINTS
 // ============================================
